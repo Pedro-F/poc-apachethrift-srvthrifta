@@ -31,7 +31,7 @@ public class ServicioA {
 
 			// invocamos al  microservicio servicioB, enviandos el bean formateado en rest
 			RestTemplate restTemplate = new RestTemplate();
-			MensajeOutServicioNoThrift outServicioB = restTemplate.postForObject("no-thrift-srvb/servicioB",
+			MensajeOutServicioNoThrift outServicioB = restTemplate.postForObject("no-thrift-srvb:8080/servicioB",
 																				 inServicioB, 
 																				 MensajeOutServicioNoThrift.class);
 
