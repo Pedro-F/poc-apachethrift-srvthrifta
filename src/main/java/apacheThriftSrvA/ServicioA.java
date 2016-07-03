@@ -48,7 +48,7 @@ public class ServicioA {
 	}
 	
 	/**
-	 * 
+	 * metodo que transforma el bean
 	 * @param outServicioB
 	 * @return
 	 */
