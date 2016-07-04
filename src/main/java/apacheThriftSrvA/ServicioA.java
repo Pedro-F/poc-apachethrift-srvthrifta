@@ -7,12 +7,17 @@ import java.util.Map;
 import java.util.UUID;
 
 import org.apache.thrift.protocol.TCompactProtocol;
+import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocol;
+import org.apache.thrift.transport.TFramedTransport;
 import org.apache.thrift.transport.THttpClient;
+import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class ServicioA {
 
 	ThriftService.Client client = null;
-	
+	@RequestMapping(value = "/servicioA", method = RequestMethod.POST)
 	public @ResponseBody PeticionSalida servicioAThrift(@RequestBody PeticionEntrada peticionEntrada) {
 
 		PeticionSalida responseMessage = new PeticionSalida();
@@ -59,11 +64,17 @@ public class ServicioA {
 	private void init() throws Exception {
 
 		if (client == null) {
-			TTransport transport = new THttpClient("http://localhost:8081/calculator/");
-
-			TProtocol protocol = new TCompactProtocol(transport);
-
-			client = new ThriftService.Client(protocol);
+//			TTransport transport = new THttpClient("http://localhost:8081/servicioB/");
+//
+//			TProtocol protocol = new TCompactProtocol(transport);
+//
+//			client = new ThriftService.Client(protocol);
+//	        transport.open();
+	        
+	        TTransport transport = new TFramedTransport(new TSocket("localhost", 9092)); 
+	        TProtocol protocol = new TJSONProtocol(transport); 
+//	        ThriftService.Client client = new ThriftService.Client(protocol); 
+	        client = new ThriftService.Client(protocol);
 	        transport.open();
 		}
 	}
