@@ -71,7 +71,7 @@ public class ServicioA {
 //			client = new ThriftService.Client(protocol);
 //	        transport.open();
 	        
-	        TTransport transport = new TFramedTransport(new TSocket("localhost", 9094)); 
+	        TTransport transport = new TFramedTransport(new TSocket("http://thrift-srvb:8080/servicioB", 9094)); 
 	        TProtocol protocol = new TJSONProtocol(transport); 
 //	        ThriftService.Client client = new ThriftService.Client(protocol); 
 	        client = new ThriftService.Client(protocol);
