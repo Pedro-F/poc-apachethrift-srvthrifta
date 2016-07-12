@@ -94,16 +94,11 @@ public class ServicioA {
 	private void init() throws Exception {
 
 		if (client == null) {
-//			TTransport transport = new THttpClient("http://localhost:8081/servicioB/");
-//
-//			TProtocol protocol = new TCompactProtocol(transport);
-//
-//			client = new ThriftService.Client(protocol);
-//	        transport.open();
+
 	        
 	        TTransport transport = new TFramedTransport(new TSocket("thrift-srvb", 9094)); 
 	        TProtocol protocol = new TJSONProtocol(transport); 
-//	        ThriftService.Client client = new ThriftService.Client(protocol); 
+
 	        client = new ThriftService.Client(protocol);
 	        transport.open();
 		}
