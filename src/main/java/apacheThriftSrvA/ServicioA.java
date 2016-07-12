@@ -79,7 +79,7 @@ public class ServicioA {
 		
 		if ((finTime > iniTime) && (tamanio > 0)){
 			mediaTime = (finTime - iniTime)/tamanio;
-			System.out.println(".   FIN ServicioA.  Se han lanzado " + tamanio + " Peticiones " +
+			System.out.println(".   FIN ServicioA [Thrift].  Se han lanzado " + tamanio + " Peticiones " +
 			"En un tiempo de " + (finTime - iniTime) + " Milisegundos. La media es " + mediaTime + " Milisegundos");
 		}
 		else{
