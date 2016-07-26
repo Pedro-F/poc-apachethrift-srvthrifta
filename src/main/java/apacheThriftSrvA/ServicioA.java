@@ -6,11 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-import org.apache.thrift.protocol.TCompactProtocol;
 import org.apache.thrift.protocol.TJSONProtocol;
 import org.apache.thrift.protocol.TProtocol;
 import org.apache.thrift.transport.TFramedTransport;
-import org.apache.thrift.transport.THttpClient;
 import org.apache.thrift.transport.TSocket;
 import org.apache.thrift.transport.TTransport;
 import org.springframework.boot.SpringApplication;
@@ -67,8 +65,7 @@ public class ServicioA {
 			}
 			finTime = System.currentTimeMillis();
 			
-			// Tratamos la salida del servicioB para construir la la salida del
-			// servicioA
+			//  creating servicioA output from servicioB response
 			responseMessage = convertMensajeOutServicioNoThrift_TO_PeticionSalida(respuestaThrift);
 
 		} catch (Exception e) {
@@ -111,15 +108,14 @@ public class ServicioA {
 	 */
 	public PeticionSalida convertMensajeOutServicioNoThrift_TO_PeticionSalida(MensajeOutServicio outServicioB) {
 
-		// instanciamos una lista de prendas
+		// prendas list instance
 		List<Prenda> prendas = new ArrayList<Prenda>();
 		Prenda prenda = null;
 
-		// instanciamos la una lista de PrendaNoThrift para extraer los datos de
-		// la llamada al servicioB
+		// PrendaNoThrift list instance to extract input servicioB
 		List<PrendaThrift> prendasThrift = outServicioB.getCuerpo().get("Prendas");
 
-		// Si tiene contenido extraemos las prendas y las ponemos en la lista
+		// if is not empty, we extract prendaThrift and put it in prendas list
 		if (prendasThrift != null) {
 			for (PrendaThrift prendaThrift : prendasThrift) {
 				prenda = new Prenda();
@@ -133,12 +129,11 @@ public class ServicioA {
 			}
 		}
 
-		// lo ponemos en un map para el cuerpo del mensaje PeticionSalida
-		// (servicioA)
+		// Create map to build response body of servicioA
 		Map<String, List<Prenda>> cuerpoSalida = new HashMap<String, List<Prenda>>();
 		cuerpoSalida.put("Prendas", prendas);
 
-		// Retornamos una PeticionSalida con header, body y aviso
+		// Build & Return PeticionSalida
 		return new PeticionSalida(outServicioB.getCabecera(), cuerpoSalida, outServicioB.getAviso());
 	}
 
